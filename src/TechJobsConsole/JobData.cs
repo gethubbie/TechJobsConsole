@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
+
 namespace TechJobsConsole
 {
     class JobData
@@ -38,6 +39,30 @@ namespace TechJobsConsole
             return values;
         }
 
+        public static List<Dictionary<string, string>> FindByValue(string searchTerm)
+        {
+            LoadData();
+
+            List<Dictionary<string, string>> searchResults = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+
+            {
+                foreach (KeyValuePair<string, string> field in job)
+
+                {
+                    if (field.Value.ToLower().Contains(searchTerm))
+
+                    {
+                        searchResults.Add(job);
+                        break;
+                    }
+                }
+            }
+            return searchResults;
+        }
+                    
+
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
@@ -49,7 +74,7 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
